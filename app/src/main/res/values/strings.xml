@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Awesome Cat App</string>
     <string name="edit_message">Enter a message...</string>
-    <string name="button_send">Send</string>
+    <string name="button_fact">Give me a cat fact!</string>
+    <string name="button_pic">Give me a cat picture!</string>
+    <string name="button_gif">Give me a cat gif!</string>
 </resources>

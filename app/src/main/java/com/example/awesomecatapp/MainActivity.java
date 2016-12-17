@@ -10,6 +10,8 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.example.awesomecatapp.MESSAGE";
 
+    ArticleFragment articleFragment = new ArticleFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         String testMessage = "Here you go, this should be a cat fact!";
         intent.putExtra(EXTRA_MESSAGE, testMessage);
         //TODO: Jatka tätä, en tiedä mitä pitäs tehhä täsä
+        
     }
 
 

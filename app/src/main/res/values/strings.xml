@@ -9,5 +9,8 @@
     <string name="hello_blank_fragment">Tervehdys, Paavo! Mitä sinulle kuuluu tänään?</string>
     <string name="welcome_message">Welcome to the most awesome Cat Application ever made!</string>
 
-    <string name="catFact">Here you go fine sir, a cat fact!</string>
+    <string name="factTest">Here you go fine sir, an interesting cat fact!</string>
+    <string name="picTest">Here you go fine sir, a cute cat picture!</string>
+    <string name="gifTest">Here you go fine sir, a funny cat GIF!</string>
+
 </resources>

@@ -21,6 +21,63 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        showWelcomeMessage(savedInstanceState);
+
+        setListeners();
+
+    }
+
+    private void setListeners() {
+        Button factButton = (Button) findViewById(R.id.factButton);
+        factButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                fr = new FactFragment();
+
+                fm = getFragmentManager();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fr);
+                ft.commit();
+
+            }
+        });
+
+        Button picButton = (Button) findViewById(R.id.picButton);
+        picButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                fr = new PicFragment();
+
+                fm = getFragmentManager();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fr);
+                ft.commit();
+
+            }
+        });
+
+        Button gifButton = (Button) findViewById(R.id.gifButton);
+        gifButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                fr = new GifFragment();
+
+                fm = getFragmentManager();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fr);
+                ft.commit();
+
+            }
+        });
+    }
+
+    private void showWelcomeMessage(Bundle savedInstanceState) {
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
@@ -43,26 +100,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
         }
-
-
-        Button factButton = (Button) findViewById(R.id.factButton);
-        factButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                fr = new FactFragment();
-
-                fm = getFragmentManager();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fr);
-                ft.commit();
-
-            }
-        });
-
     }
-
 
 
     public void showFact(View view){

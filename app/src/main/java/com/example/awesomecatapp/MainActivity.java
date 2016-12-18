@@ -2,20 +2,25 @@ package com.example.awesomecatapp;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    Fragment fr;
+    FragmentManager fm;
+    FragmentTransaction ft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+/*
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
@@ -38,23 +43,31 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
         }
+*/
+
+        Button factButton = (Button) findViewById(R.id.factButton);
+        factButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                fr = new FactFragment();
+
+                fm = getFragmentManager();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fr);
+                ft.commit();
+
+            }
+        });
 
     }
+
+
 
     public void showFact(View view){
         // TODO
         System.out.println("Fact button pressed");
-/*
-        FragmentManager fm = getFragmentManager();
-        FactFragment f = (FactFragment) fm.findFragmentById(FactFragment.TAG);
-        if (f == null) {
-            f = new FactFragment();
-            fm.beginTransaction()
-                    .replace(R.id.fragment_container, f, FactFragment.TAG)
-                    //.addToBackStack(null);  // uncomment this line if you want to be able to return to the prev. fragment with "back" button
-                    .commit();
-        }
-        */
     }
 
     public void showPic(View view){

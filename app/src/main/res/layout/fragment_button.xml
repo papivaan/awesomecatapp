@@ -10,18 +10,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/button_fact"
-        android:onClick="showFact (MainActivity)"
         android:background="@color/colorAccent" />
     <Button
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/button_pic"
-        android:onClick="showPic"/>
+        android:text="@string/button_pic" />
     <Button
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/button_gif"
-        android:onClick="showGif" />
+        android:text="@string/button_gif" />
 </LinearLayout>

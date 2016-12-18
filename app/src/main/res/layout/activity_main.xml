@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <fragment android:layout_width="wrap_content"
+
+    <fragment
+        android:id="@+id/buttonFragment"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:name="com.example.awesomecatapp.ButtonFragment"
         tools:layout="@layout/fragment_button" />
-    <fragment android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:name="com.example.awesomecatapp.FactFragment"
-        tools:layout="@layout/fragment_fact" />
+
+
+
 </LinearLayout>
 
 

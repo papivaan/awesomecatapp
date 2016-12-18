@@ -1,54 +1,56 @@
 package com.example.awesomecatapp;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
 
 
 public class MainActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE = "com.example.awesomecatapp.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.fragment_container) != null) {
 
-    /**
-     * Called when user clicks the "Send" button
-     * @param view View that was clicked
-     */
-    public void sendMessage(View view) {
-        /*
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-        */
-    }
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
 
+            // Create a new Fragment to be placed in the activity layout
+            FactFragment firstFragment = new FactFragment();
 
-    /** Shows a random cat fact */
-    public void showFact(View view) {
-        Intent intent = new Intent(this, ShowFactFragment.class);
-        String testMessage = "Here you go, this should be a cat fact!";
-        intent.putExtra(EXTRA_MESSAGE, testMessage);
-        //TODO: Jatka tätä, en tiedä mitä pitäs tehhä täsä
-    }
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            firstFragment.setArguments(getIntent().getExtras());
 
-
-    /** Shows a random cat picture */
-    public void showPic(View view) {
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, firstFragment).commit();
+        }
 
     }
 
+    public void showFact(View view){
+        // TODO
+        System.out.println("Fact button pressed");
+    }
 
-    /** Shows a random cat gif */
-    public void showGif(View view) {
+    public void showPic(View view){
+        // TODO
+        System.out.println("Pic button pressed");
+    }
 
+    public void showGif(View view){
+        // TODO
+        System.out.println("Gif button pressed");
     }
 }
+

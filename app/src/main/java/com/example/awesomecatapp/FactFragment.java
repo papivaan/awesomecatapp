@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 public class FactFragment extends Fragment {
 
 
+    public static final String ARG_POSITION = "position";
+
     public FactFragment() {
         // Required empty public constructor
     }

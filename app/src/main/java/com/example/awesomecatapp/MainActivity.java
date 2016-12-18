@@ -2,6 +2,7 @@ package com.example.awesomecatapp;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -41,6 +42,22 @@ public class MainActivity extends AppCompatActivity {
     public void showFact(View view){
         // TODO
         System.out.println("Fact button pressed");
+
+        // Create fragment and give it an argument specifying the article it should show
+        FactFragment newFragment = new FactFragment();
+        Bundle args = new Bundle();
+        args.putInt(FactFragment.ARG_POSITION, position);
+        newFragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
     }
 
     public void showPic(View view){

@@ -6,7 +6,7 @@
     <string name="button_gif">Give me a cat gif!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Tervehdys, Paavo! Mitä sinulle kuuluu tänään?</string>
 
     <string name="catFact">Here you go fine sir, a cat fact!</string>
 </resources>

@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         // Create fragment and give it an argument specifying the article it should show
         FactFragment newFragment = new FactFragment();
         Bundle args = new Bundle();
-        args.putInt(FactFragment.ARG_POSITION, position);
+        //args.putInt(FactFragment.ARG_POSITION, position);
         newFragment.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

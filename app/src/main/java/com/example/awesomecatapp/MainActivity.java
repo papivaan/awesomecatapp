@@ -3,7 +3,6 @@ package com.example.awesomecatapp;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
+
 
     Fragment fr;
     FragmentManager fm;
@@ -40,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, fr);
                 ft.commit();
+
+                // TODO
+                System.out.println("Going in, cover me...");
+                try {
+                    System.out.println("Sending get from fact button");
+                    getFact();
+                } catch (Exception ex){
+                    System.out.println("Oijjojoi, en virhe!");
+                }
 
             }
         });
@@ -100,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
         }
+    }
+
+    private void getFact() throws Exception {
+        String url = "http://catfacts-api.appspot.com/api/facts?number=1";
+
+        System.out.println(url);
     }
 
 }

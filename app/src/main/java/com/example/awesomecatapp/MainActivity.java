@@ -4,44 +4,75 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 
 public class MainActivity extends AppCompatActivity {
-    public final static String EXTRA_MESSAGE = "com.example.awesomecatapp.MESSAGE";
 
-    ArticleFragment articleFragment = new ArticleFragment();
+    TextView newText;
+    Button changeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        newText = (TextView)findViewById(R.id.text_box);
+        changeText = (Button)findViewById(R.id.factButton);
+
+        changeText.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                
+
+                //Set Text on button click via this function.
+                newText.setText("Text Change successfully");
+
+            }
+        });
     }
 
 
-    /**
-     * Called when user clicks the "Send" button
-     * @param view View that was clicked
-     */
-    public void sendMessage(View view) {
-        /*
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-        */
-    }
 
 
     /** Shows a random cat fact */
     public void showFact(View view) {
-        Intent intent = new Intent(this, ShowFactFragment.class);
         String testMessage = "Here you go, this should be a cat fact!";
-        intent.putExtra(EXTRA_MESSAGE, testMessage);
+
         //TODO: Jatka tätä, en tiedä mitä pitäs tehhä täsä
-        
+
+
     }
+
+
 
 
     /** Shows a random cat picture */
@@ -55,3 +86,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+

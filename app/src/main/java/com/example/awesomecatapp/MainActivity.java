@@ -3,6 +3,7 @@ package com.example.awesomecatapp;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,8 +38,19 @@ public class MainActivity extends AppCompatActivity {
 */
     }
 
+    public void showFact(View view){
+        // TODO
+        System.out.println("Fact button pressed");
+    }
 
+    public void showPic(View view){
+        // TODO
+        System.out.println("Pic button pressed");
+    }
 
-
+    public void showGif(View view){
+        // TODO
+        System.out.println("Gif button pressed");
+    }
 }
 

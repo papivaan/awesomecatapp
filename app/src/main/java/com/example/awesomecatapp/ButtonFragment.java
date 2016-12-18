@@ -26,4 +26,18 @@ public class ButtonFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_button, container, false);
     }
 
+    public void showFact(View view){
+        // TODO
+        System.out.println("Fact button pressed");
+    }
+
+    public void showPic(View view){
+        // TODO
+        System.out.println("Pic button pressed");
+    }
+
+    public void showGif(View view){
+        // TODO
+        System.out.println("Gif button pressed");
+    }
 }

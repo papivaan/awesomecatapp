@@ -52,26 +52,29 @@ public class PicFragment extends Fragment {
 
 
     public void setImg(String imgUrl) {
-        InputStream in = null;
-        try
-        {
-            URL url = new URL(imgUrl);
-            URLConnection urlConn = url.openConnection();
-            HttpURLConnection httpConn = (HttpURLConnection) urlConn;
-            httpConn.connect();
-            in = httpConn.getInputStream();
-        }
-        catch (MalformedURLException e)
-        {
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        Bitmap bmpimg = BitmapFactory.decodeStream(in);
+
+        Bitmap bmpimg = getBitmapFromURL(imgUrl);
         ImageView iv = (ImageView) getView().findViewById(R.id.picView);
         iv.setImageBitmap(bmpimg);
+
+    }
+
+
+    public Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            input.close();
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

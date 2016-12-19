@@ -20,11 +20,20 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
+import java.io.File;
+import java.io.StringReader;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -192,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
+                    imageUrl = parseImgUrl(imageUrl);
+
                     // configure image url
                     Bundle bundle = new Bundle();
                     bundle.putString("imgUrl", imageUrl);
@@ -283,6 +294,55 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return parsedResult;
+    }
+
+
+    public String parseImgUrl(String xmlString) {
+
+        String imageUrl = "";
+
+        try {
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder;
+            Document doc = null;
+            try {
+                builder = factory.newDocumentBuilder();
+                doc = builder.parse(new InputSource(new StringReader(xmlString)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            //optional, but recommended
+            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+            doc.getDocumentElement().normalize();
+
+
+            NodeList nList = doc.getElementsByTagName("image");
+
+            System.out.println("----------------------------");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+
+                Node nNode = nList.item(temp);
+
+                System.out.println("\nCurrent Element :" + nNode.getNodeName());
+
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element eElement = (Element) nNode;
+
+                    imageUrl = eElement.getElementsByTagName("url").item(0).getTextContent();
+                    System.out.println("Image URL: " + imageUrl);
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return imageUrl;
     }
 
 

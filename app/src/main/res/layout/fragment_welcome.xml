@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.awesomecatapp.WelcomeFragment">
+    tools:context="com.example.awesomecatapp.WelcomeFragment"
+    android:background="#FFB6C1">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -10,6 +11,8 @@
         android:layout_height="match_parent"
         android:text="@string/welcome_message"
         android:textColor="@color/colorAccent"
-        android:textSize="30dp"/>
+        android:textSize="40dp"
+        android:fontFamily="casual"
+        android:textStyle="normal|bold"/>
 
 </FrameLayout>

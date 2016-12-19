@@ -30,15 +30,23 @@ import org.apache.commons.lang3.StringUtils;
 public class MainActivity extends AppCompatActivity {
 
     private static final String DEBUG_TAG = "MainActivity";
+
+    // URL for the CatFact API
     String factUrl = "http://catfacts-api.appspot.com/api/facts?number=1";
+
+    // Variable for storing current random fact
+    public String factText;
 
     Fragment fr;
     FragmentManager fm;
     FragmentTransaction ft;
 
-    public String factText;
 
-
+    /**
+     * Shows welcome message and sets click listeners when activity is created
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,45 +58,76 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Sets listeners for Fact, Pic and Gif buttons
+     */
     private void setListeners() {
+
+        /**
+         * Button for getting the cat fact
+         */
         Button factButton = (Button) findViewById(R.id.factButton);
+
+        /**
+         * Sets click listener on fact button
+         */
         factButton.setOnClickListener(new View.OnClickListener() {
 
+            /**
+             * Creates a connection and fetches the cat fact from the API URL.
+             * Sets the factText variable
+             *
+             * @param v View where the button is clicked
+             */
             @Override
             public void onClick(View v) {
 
+                // Create new fact fragment
                 fr = new FactFragment();
 
                 String result = "";
 
-                // TODO
+                // Check if Internet connection is available
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+                // If there is a connection, send GET request
                 if (networkInfo != null && networkInfo.isConnected()) {
 
                     // fetch data
                     AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(factUrl);
 
                     try {
+
+                        // Store the result of the request
                         result = dwt.get();
+
+                        // Find the index of last curly bracket
                         int lastIndex = result.lastIndexOf("}");
+                        // Store text only until last curly bracket, ie. get rid of the funny characters at the end
                         result = StringUtils.left(result, lastIndex + 1);
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
 
+                    // Parse the json result into a single string
                     result = parseFact(result);
 
+                    // Store the result as factText
                     factText = result;
 
                 } else {
                     // display error
-                    System.out.println("Ooijjojoi, en virhe...");
+                    System.out.println("Error! Something wrong with the network...");
                 }
 
+                // Change the fragment in the container
+                //TODO: Muuta sisältö vastaamaan uutta faktaa
                 fm = getFragmentManager();
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, fr);
@@ -99,14 +138,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * Button for getting a cat picture
+         */
         Button picButton = (Button) findViewById(R.id.picButton);
+
+        /**
+         * Sets click listener on the pic button
+         */
         picButton.setOnClickListener(new View.OnClickListener() {
 
+            /**
+             * Create a connection and fetch a new cat picture
+             *
+             * @param v View where the button was clicked
+             */
             @Override
             public void onClick(View v) {
 
                 fr = new PicFragment();
 
+                //TODO: Hae kuveja
+
+                // Change the fragment in the container
+                //TODO: Muuta sisältöön uusi kuva
                 fm = getFragmentManager();
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, fr);
@@ -115,14 +170,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * Button for getting a cat gif
+         */
         Button gifButton = (Button) findViewById(R.id.gifButton);
+
+        /**
+         * Sets click listener on the button
+         */
         gifButton.setOnClickListener(new View.OnClickListener() {
 
+            /**
+             *
+             * @param v View where the button was clicked
+             */
             @Override
             public void onClick(View v) {
 
                 fr = new GifFragment();
 
+                //TODO: Hae gif
+
+                // Change the fragment in the container
+                // TODO:
                 fm = getFragmentManager();
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, fr);
@@ -132,21 +203,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private String parseFact(String result) {
+
+    /**
+     * Parses the cat fact out of a json string
+     *
+     * @param jsonString String that needs parsing
+     * @return Parsed fact
+     */
+    private String parseFact(String jsonString) {
 
         String parsedResult = "";
-        JSONParser parser = new JSONParser();
 
+        // Create new JSON parser
+        JSONParser parser = new JSONParser();
 
         try {
 
-            Object obj = parser.parse(result);
+            // Create an object from string
+            Object obj = parser.parse(jsonString);
 
+            // Create a JSON object from object
             JSONObject jsonObject = (JSONObject) obj;
 
+            // Create a JSON array that has facts in it
             JSONArray fact = (JSONArray) jsonObject.get("facts");
+
+            // Iterate over the facts
             Iterator<String> iterator = fact.iterator();
             while (iterator.hasNext()) {
+                // Store the fact into the result
                 parsedResult = iterator.next();
             }
 
@@ -157,6 +242,12 @@ public class MainActivity extends AppCompatActivity {
         return parsedResult;
     }
 
+
+    /**
+     * Fills the fragment container with a welcome message
+     *
+     * @param savedInstanceState
+     */
     private void showWelcomeMessage(Bundle savedInstanceState) {
 
         // Check that the activity is using the layout version with
@@ -183,10 +274,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
 }
-

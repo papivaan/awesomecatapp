@@ -8,16 +8,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/picView"
+            android:layout_weight="5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/picUrl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/picTest"
             android:textSize="20dp"/>
+<<<<<<< HEAD
         <ImageView
             android:id="@+id/picView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+=======
+>>>>>>> f18ad04b785eb0e4863c0361df9912de2caa3457
     </LinearLayout>
 
 

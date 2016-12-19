@@ -4,12 +4,19 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -44,15 +51,27 @@ public class MainActivity extends AppCompatActivity {
 
                 fr = new FactFragment();
 
+                String result = "";
 
                 // TODO
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
                 if (networkInfo != null && networkInfo.isConnected()) {
+
                     // fetch data
-                    System.out.println("Fetching data...");
-                    new DownloadWebpageTask().execute(factUrl);
+                    AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(factUrl);
+
+                    try {
+                        result = dwt.get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    factText = result;
+
                 } else {
                     // display error
                     System.out.println("Ooijjojoi, en virhe...");
@@ -63,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.replace(R.id.fragment_container, fr);
                 ft.commit();
 
-                System.out.println("Tämä tässä on tallennettu fakta: " + factText);
+                
 
             }
         });

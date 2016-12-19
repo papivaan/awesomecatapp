@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 // Uses AsyncTask to create a task away from the main UI thread. This task takes a
 // URL string and uses it to create an HttpUrlConnection. Once the connection
 // has been established, the AsyncTask downloads the contents of the webpage as
@@ -26,7 +27,8 @@ public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
 
         // params comes from the execute() call: params[0] is the url.
         try {
-            return downloadUrl(urls[0]);
+            String result = downloadUrl(urls[0]);
+            return result;
         } catch (IOException e) {
             return "Unable to retrieve web page. URL may be invalid.";
         }
@@ -37,7 +39,7 @@ public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         //textView.setText(result);
-        System.out.println("The result is: " + result);
+        //System.out.println("The result is: " + result);
         //TODO
     }
 

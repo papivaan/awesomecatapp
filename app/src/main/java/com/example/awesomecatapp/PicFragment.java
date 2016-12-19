@@ -50,10 +50,18 @@ public class PicFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             imgUrl = bundle.getString("imgUrl");
+            setImg(imgUrl);
         }
 
         // show The Image in a ImageView
         new DownloadImageTask((ImageView) getView().findViewById(R.id.picView)).execute(imgUrl);
+
+    }
+
+    public void setImg(String imgUrl) {
+
+        TextView t = (TextView) getView().findViewById(R.id.picUrl);
+        t.setText(imgUrl);
 
     }
 

@@ -12,11 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+import org.json.simple.JSONArray;
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
+
+import org.apache.commons.lang3.StringUtils;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,11 +72,16 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         result = dwt.get();
+                        int lastIndex = result.lastIndexOf("}");
+                        result = StringUtils.left(result, lastIndex + 1);
+                        System.out.println("Result from dwt: " + result);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
+
+                    result = parseFact(result);
 
                     factText = result;
 
@@ -82,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 ft.replace(R.id.fragment_container, fr);
                 ft.commit();
 
-                
+
 
             }
         });
@@ -118,6 +131,31 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private String parseFact(String result) {
+
+        String parsedResult = "";
+        JSONParser parser = new JSONParser();
+
+
+        try {
+
+            Object obj = parser.parse(result);
+
+            JSONObject jsonObject = (JSONObject) obj;
+
+            JSONArray fact = (JSONArray) jsonObject.get("facts");
+            Iterator<String> iterator = fact.iterator();
+            while (iterator.hasNext()) {
+                System.out.println("Fakta parserilta: " + iterator.next());
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } 
+
+        return parsedResult;
     }
 
     private void showWelcomeMessage(Bundle savedInstanceState) {

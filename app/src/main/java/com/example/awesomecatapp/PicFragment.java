@@ -54,7 +54,7 @@ public class PicFragment extends Fragment {
         }
 
         // show The Image in a ImageView
-        new DownloadImageTask((ImageView) findViewById(R.id.picView)).execute(imgUrl);
+        new DownloadImageTask((ImageView) getView().findViewById(R.id.picView)).execute(imgUrl);
 
     }
 

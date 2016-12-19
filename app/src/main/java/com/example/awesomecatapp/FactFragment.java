@@ -16,8 +16,6 @@ import org.w3c.dom.Text;
  */
 public class FactFragment extends Fragment {
 
-    TextView factTextView;
-
 
     public FactFragment() {
         // Required empty public constructor
@@ -32,7 +30,7 @@ public class FactFragment extends Fragment {
     }
 
 
-    public void setText(String text) {
+    public void setFactText(String text) {
         TextView t = (TextView) getView().findViewById(R.id.factTextView);
         t.setText(text);
     }

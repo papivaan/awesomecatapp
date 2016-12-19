@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     // Store the result as factText
                     factText = result;
 
+
                 } else {
                     // display error
                     System.out.println("Error! Something wrong with the network...");
@@ -132,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, fr);
                 ft.commit();
-
 
 
             }
@@ -273,5 +273,7 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_container, firstFragment).commit();
         }
     }
+
+
 
 }

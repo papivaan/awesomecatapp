@@ -31,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager fm;
     FragmentTransaction ft;
 
+    public String factText;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
                 fr = new FactFragment();
 
-                fm = getFragmentManager();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fr);
-                ft.commit();
 
                 // TODO
                 ConnectivityManager connMgr = (ConnectivityManager)
@@ -68,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     // display error
                     System.out.println("Ooijjojoi, en virhe...");
                 }
+
+                fm = getFragmentManager();
+                ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fr);
+                ft.commit();
+
+                System.out.println("Tämä tässä on tallennettu fakta: " + factText);
 
             }
         });
@@ -106,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showWelcomeMessage(Bundle savedInstanceState) {
+
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
@@ -130,12 +137,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getFact() throws Exception {
-        String url = "http://catfacts-api.appspot.com/api/facts?number=1";
-
-        System.out.println(url);
-    }
-
 
 
 
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
     // an InputStream. Finally, the InputStream is converted into a string, which is
     // displayed in the UI by the AsyncTask's onPostExecute method.
     private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+
         @Override
         protected String doInBackground(String... urls) {
 
@@ -155,16 +157,22 @@ public class MainActivity extends AppCompatActivity {
                 return "Unable to retrieve web page. URL may be invalid.";
             }
         }
+
+
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
             //textView.setText(result);
-            System.out.println(result);
+            System.out.println("The result is: " + result);
+            //TODO
+            //setFactText(result);
+            factText = result;
         }
 
+
         // Given a URL, establishes an HttpUrlConnection and retrieves
-// the web page content as a InputStream, which it returns as
-// a string.
+        // the web page content as a InputStream, which it returns as
+        // a string.
         private String downloadUrl(String myurl) throws IOException {
             InputStream is = null;
             // Only display the first 500 characters of the retrieved
@@ -206,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
             reader.read(buffer);
             return new String(buffer);
         }
+
     }
 
 }

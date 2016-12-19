@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -13,8 +16,8 @@ import android.view.ViewGroup;
  */
 public class FactFragment extends Fragment {
 
-    public static final String ARG_POSITION = "position";
-    public static final int TAG = 1;
+    TextView factTextView;
+
 
     public FactFragment() {
         // Required empty public constructor
@@ -26,6 +29,12 @@ public class FactFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_fact, container, false);
+    }
+
+
+    public void setText(String text) {
+        TextView t = (TextView) getView().findViewById(R.id.factTextView);
+        t.setText(text);
     }
 
 }

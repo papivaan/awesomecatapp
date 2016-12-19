@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                         result = dwt.get();
                         int lastIndex = result.lastIndexOf("}");
                         result = StringUtils.left(result, lastIndex + 1);
-                        System.out.println("Result from dwt: " + result);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -148,12 +147,12 @@ public class MainActivity extends AppCompatActivity {
             JSONArray fact = (JSONArray) jsonObject.get("facts");
             Iterator<String> iterator = fact.iterator();
             while (iterator.hasNext()) {
-                System.out.println("Fakta parserilta: " + iterator.next());
+                parsedResult = iterator.next();
             }
 
         } catch (ParseException e) {
             e.printStackTrace();
-        } 
+        }
 
         return parsedResult;
     }

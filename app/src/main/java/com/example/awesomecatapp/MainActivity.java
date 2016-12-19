@@ -33,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
     // URL for the CatFact API
     String factUrl = "http://catfacts-api.appspot.com/api/facts?number=1";
+    String imageApiUrl = "http://thecatapi.com/api/images/get?format=xml&results_per_page=1";
 
     // Variable for storing current random fact
     public String factText;
+
 
     Fragment fr;
     FragmentManager fm;
@@ -162,14 +164,51 @@ public class MainActivity extends AppCompatActivity {
 
                 fr = new PicFragment();
 
+                String imageUrl = "";
+
                 //TODO: Hae kuveja
 
-                // Change the fragment in the container
-                //TODO: Muuta sisältöön uusi kuva
-                fm = getFragmentManager();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fr);
-                ft.commit();
+                // Check if Internet connection is available
+                ConnectivityManager connMgr = (ConnectivityManager)
+                        getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+                // If there is a connection, send GET request
+                if (networkInfo != null && networkInfo.isConnected()) {
+
+                    // fetch data
+                    AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(imageApiUrl);
+
+                    try {
+
+                        // Store the result of the request
+                        imageUrl = dwt.get();
+                        System.out.println("URL of the image: " + imageUrl);
+
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    // configure image url
+                    Bundle bundle = new Bundle();
+                    bundle.putString("imgUrl", imageUrl);
+                    fr.setArguments(bundle);
+
+
+                    // Change the fragment in the container
+                    fm = getFragmentManager();
+                    ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fr);
+                    ft.commit();
+
+                }
+                else {
+                    // display error
+                    System.out.println("Error! Something wrong with the network...");
+                }
 
             }
         });

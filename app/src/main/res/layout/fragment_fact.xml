@@ -11,6 +11,7 @@
         android:orientation="vertical">
         <TextView
             android:id="@+id/didYouknow"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/didYouKnow"
@@ -19,6 +20,7 @@
             android:fontFamily="casual" />
         <TextView
             android:id="@+id/factTextView"
+            android:layout_weight="4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/factTest"
@@ -27,6 +29,7 @@
             android:fontFamily="casual" />
         <TextView
             android:id="@+id/mostLikely"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/mostLikely"

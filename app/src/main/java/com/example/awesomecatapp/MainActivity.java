@@ -121,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
                     // Store the result as factText
                     factText = result;
 
+                    // configure factText
+                    Bundle bundle = new Bundle();
+                    bundle.putString("text", factText);
+                    fr.setArguments(bundle);
+
 
                 } else {
                     // display error
@@ -128,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Change the fragment in the container
-                //TODO: Muuta sisältö vastaamaan uutta faktaa
                 fm = getFragmentManager();
                 ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.fragment_container, fr);

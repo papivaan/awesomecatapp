@@ -30,7 +30,19 @@ public class FactFragment extends Fragment {
     }
 
 
-    public void setFactText(String text) {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // Set text
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            setText(bundle.getString("text"));
+        }
+    }
+
+
+    public void setText(String text) {
         TextView t = (TextView) getView().findViewById(R.id.factTextView);
         t.setText(text);
     }

@@ -10,19 +10,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:text="@string/button_fact" />
+        android:text="@string/button_fact"
+        android:fontFamily="casual"/>
     <Button
         android:id="@+id/picButton"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:text="@string/button_pic" />
+        android:text="@string/button_pic"
+        android:fontFamily="casual"/>
     <Button
         android:id="@+id/gifButton"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:text="@string/button_gif" />
+        android:text="@string/button_gif"
+        android:fontFamily="casual"/>
 </LinearLayout>

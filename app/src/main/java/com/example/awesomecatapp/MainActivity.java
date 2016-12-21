@@ -40,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String DEBUG_TAG = "MainActivity";
 
-    // URL for the CatFact API
+    // API source: https://catfacts-api.appspot.com
     String factUrl = "http://catfacts-api.appspot.com/api/facts?number=1";
+
+    // API source: http://thecatapi.com
     String imageApiUrl = "http://thecatapi.com/api/images/get?format=xml&results_per_page=1";
 
     // Variable for storing current random fact

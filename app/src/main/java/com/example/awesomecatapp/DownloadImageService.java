@@ -3,6 +3,7 @@ package com.example.awesomecatapp;
 import android.app.IntentService;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.test.espresso.core.deps.guava.io.CharStreams;
 import android.util.Log;
 
@@ -12,9 +13,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.MalformedURLException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -82,7 +85,16 @@ public class DownloadImageService extends IntentService {
 
     private void downloadImage(String url) {
 
+        Bitmap img = null;
 
+        try {
+            InputStream in = new java.net.URL(url).openStream();
+            img = BitmapFactory.decodeStream(in);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -2,8 +2,10 @@ package com.example.awesomecatapp;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,11 +40,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Context context;
+
     // API source: https://catfacts-api.appspot.com
     String factUrl = "http://catfacts-api.appspot.com/api/facts?number=1";
 
     // API source: http://thecatapi.com
     String imageApiUrl = "http://thecatapi.com/api/images/get?format=xml&results_per_page=1";
+
+    Intent downloadImageIntent;
 
     // Variable for storing current random fact
     public String factText;
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
 
         showWelcomeMessage(savedInstanceState);
 
@@ -153,12 +160,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /**
+        /*
          * Button for getting a cat picture
          */
         Button picButton = (Button) findViewById(R.id.picButton);
 
-        /**
+        /*
          * Sets click listener on the pic button
          */
         picButton.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +191,11 @@ public class MainActivity extends AppCompatActivity {
                 // If there is a connection, send GET request
                 if (networkInfo != null && networkInfo.isConnected()) {
 
+
+
+
+
+
                     // fetch data
                     AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(imageApiUrl);
 
@@ -197,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (ExecutionException ee) {
                         ee.printStackTrace();
                     }
+
 
                     imageUrl = parseImgUrl(imageUrl);
 

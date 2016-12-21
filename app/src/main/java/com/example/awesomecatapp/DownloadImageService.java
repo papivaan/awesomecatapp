@@ -2,28 +2,49 @@ package com.example.awesomecatapp;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Log;
 
-/**
- * Created by rennehir on 21/12/16.
- */
 
 public class DownloadImageService extends IntentService {
 
+    public static final String ACTION_DOWNLOAD = "com.example.awesomecatapp.action.DOWNLOAD";
+    //public static final String ACTION_BAZ = "com.example.dara.myapplication.action.BAZ";
+
+    public static final String EXTRA_URL = "com.example.awesomecatapp.extra.URL";
+    public static final String EXTRA_MESSAGE = "com.example.awesomecatapp.extra.message";
+
+    public static final Bitmap IMAGE = null;
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
      */
-    public DownloadImageService(String name) {
-        super(name);
+    public DownloadImageService() {
+        super("DownloadImageService");
     }
 
-    @Override
-    protected void onHandleIntent (Intent workIntent) {
-        // Gets data from the incoming Intent
-        String dataString = workIntent.getDataString();
 
-        // Do work here, based on the contents of dataString
+    /**
+     *
+     * @param intent Intent to work on
+     */
+    @Override
+    protected void onHandleIntent (Intent intent) {
+
+        if (intent != null) {
+            final String action = intent.getAction();
+            if (ACTION_DOWNLOAD.equals(action)) {
+                final String url = intent.getStringExtra(EXTRA_URL);
+                Log.e("Service", url);
+                downloadImage(url);
+            }
+        }
+    }
+
+
+
+    private void downloadImage(String url) {
+
 
     }
 }

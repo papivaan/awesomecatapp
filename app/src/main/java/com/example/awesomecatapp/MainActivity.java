@@ -150,6 +150,12 @@ public class MainActivity extends FragmentActivity {
                     System.out.println("Error! Something wrong with the network...");
                 }
 
+                /*
+                 * TODO:
+                 * Jostain syystä ekalla kerralla kun klikkaa kuvaa, niin ei tule mitään
+                 * ja sen jälkeen tulee "pykälän myöhässä"
+                 */
+
                 // Change the fragment in the container
                 fm = getFragmentManager();
                 ft = getSupportFragmentManager().beginTransaction();
@@ -325,6 +331,7 @@ public class MainActivity extends FragmentActivity {
                     .add(R.id.fragment_container, firstFragment).commit();
         }
     }
+
 
     public static void setImage(Bitmap image) {
         catImage = image;

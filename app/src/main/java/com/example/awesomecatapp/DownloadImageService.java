@@ -4,9 +4,12 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.test.espresso.core.deps.guava.base.Charsets;
 import android.support.test.espresso.core.deps.guava.io.CharStreams;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -31,12 +34,15 @@ public class DownloadImageService extends IntentService {
     public static final String EXTRA_APIURL = "com.example.awesomecatapp.extra.APIURL";
     //public static final String EXTRA_MESSAGE = "com.example.awesomecatapp.extra.message";
 
-    public static Bitmap img = null;
+    public Bitmap img = null;
+
+
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      */
     public DownloadImageService() {
+
         super("DownloadImageService");
     }
 
@@ -48,53 +54,62 @@ public class DownloadImageService extends IntentService {
     @Override
     protected void onHandleIntent (Intent intent) {
 
-        if (intent != null) {
-            final String action = intent.getAction();
-            if (ACTION_DOWNLOAD.equals(action)) {
-                final String apiUrl = intent.getStringExtra(EXTRA_APIURL);
-                Log.e("Service", apiUrl);
-                String imgUrl = downloadXml(apiUrl);
-                downloadImage(imgUrl);
-            }
-        }
+        String apiUrl = intent.getDataString();
+        img = downloadImage(apiUrl);
+
+        Intent backIntent = new Intent(this, MainActivity.class);
+        backIntent.putExtra("image", img);
+        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(backIntent);
+
     }
 
 
-    /**
-     * Connects to the cat pic API and parses the image url from the XML
-     * @param apiUrl URL of the API to be used
-     * @return URL of the image
-     */
-    private String downloadXml(String apiUrl) {
-
-        String xmlString = null;
-
-        try {
-            InputStream in = new java.net.URL(apiUrl).openStream();
-            xmlString = CharStreams.toString(new InputStreamReader(in, "UTF-8"));
-        } catch (Exception e) {
-            Log.e("Error", e.getMessage());
-            e.printStackTrace();
-        }
-
-        String imgUrl = parseImgUrl(xmlString);
-        return imgUrl;
-    }
-
-
-
-    private void downloadImage(String url) {
+    private Bitmap downloadImage(String apiUrl) {
 
         Bitmap img = null;
+        String imgUrl = null;
+        InputStream in = null;
 
         try {
-            InputStream in = new java.net.URL(url).openStream();
-            img = BitmapFactory.decodeStream(in);
+
+            in = new java.net.URL(apiUrl).openStream();
+            String xmlString = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+            imgUrl = parseImgUrl(xmlString);
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
+
+        try {
+
+            in = new java.net.URL(imgUrl).openStream();
+            img = BitmapFactory.decodeStream(in);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return img;
+
     }
 
 
@@ -153,3 +168,5 @@ public class DownloadImageService extends IntentService {
     }
 
 }
+
+

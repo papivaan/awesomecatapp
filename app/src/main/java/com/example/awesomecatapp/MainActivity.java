@@ -3,6 +3,7 @@ package com.example.awesomecatapp;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -183,9 +184,6 @@ public class MainActivity extends FragmentActivity {
 
                 fr = new PicFragment();
 
-                String imageUrl = "";
-
-
                 // Check if Internet connection is available
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -194,32 +192,28 @@ public class MainActivity extends FragmentActivity {
                 // If there is a connection, send GET request
                 if (networkInfo != null && networkInfo.isConnected()) {
 
-
-
                     //TODO: Kutsu DownloadImageServiceä (?)
 
+                    DownloadImageService diService = new DownloadImageService();
 
+                    /*
+                     * Creates a new Intent to start the DownloadImageService
+                     * IntentService. Passes a URI in the
+                     * Intent's "data" field.
+                     */
+                    Intent downloadImageIntent = new Intent(context, DownloadImageService.class);
+                    downloadImageIntent.setData(Uri.parse(imageApiUrl));
 
-                    // fetch data
-                    AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(imageApiUrl);
+                    // Starts the IntentService
+                    context.startService(downloadImageIntent);
 
-                    try {
+                    Bitmap img = diService.img;
 
-                        // Store the result of the request
-                        imageUrl = dwt.get();
-
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
-                    } catch (ExecutionException ee) {
-                        ee.printStackTrace();
-                    }
-
-
-                    imageUrl = parseImgUrl(imageUrl);
 
                     // configure image url
                     Bundle bundle = new Bundle();
-                    bundle.putString("imgUrl", imageUrl);
+                    bundle.putParcelable("img", img);
+                    bundle.putString("apiUrl", imageApiUrl);
                     fr.setArguments(bundle);
 
 

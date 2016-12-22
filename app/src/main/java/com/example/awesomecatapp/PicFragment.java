@@ -44,26 +44,35 @@ public class PicFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        String imgUrl = "";
 
         // Set text
         Bundle bundle = getArguments();
         if (bundle != null) {
-            imgUrl = bundle.getString("imgUrl");
-            setImgText(imgUrl);
+            Bitmap img = (Bitmap) bundle.get("img");
+            ImageView iv = (ImageView) getView().findViewById(R.id.picView);
+            iv.setImageBitmap(img);
+            String apiUrl = bundle.getString("apiUrl");
+            setImgText(apiUrl);
         }
 
         // show The Image in a ImageView
-        new DownloadImageTask((ImageView) getView().findViewById(R.id.picView)).execute(imgUrl);
+        //new DownloadImageTask((ImageView) getView().findViewById(R.id.picView)).execute(imgUrl);
 
     }
 
     public void setImgText(String imgUrl) {
 
-        TextView t = (TextView) getView().findViewById(R.id.picUrl);
-        t.setText(imgUrl);
+        try {
+            TextView t = (TextView) getView().findViewById(R.id.picUrl);
+            String text = "Images powered by: " + imgUrl;
+            t.setText(text);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
 
     }
+
 
 
 }

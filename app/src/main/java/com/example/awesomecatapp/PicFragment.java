@@ -50,7 +50,7 @@ public class PicFragment extends Fragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             imgUrl = bundle.getString("imgUrl");
-            setImg(imgUrl);
+            setImgText(imgUrl);
         }
 
         // show The Image in a ImageView
@@ -58,7 +58,7 @@ public class PicFragment extends Fragment {
 
     }
 
-    public void setImg(String imgUrl) {
+    public void setImgText(String imgUrl) {
 
         TextView t = (TextView) getView().findViewById(R.id.picUrl);
         t.setText(imgUrl);

@@ -2,8 +2,10 @@ package com.example.awesomecatapp;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,11 +40,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String DEBUG_TAG = "MainActivity";
+    private Context context;
 
-    // URL for the CatFact API
+    // API source: https://catfacts-api.appspot.com
     String factUrl = "http://catfacts-api.appspot.com/api/facts?number=1";
+
+    // API source: http://thecatapi.com
     String imageApiUrl = "http://thecatapi.com/api/images/get?format=xml&results_per_page=1";
+
+    Intent downloadImageIntent;
 
     // Variable for storing current random fact
     public String factText;
@@ -56,12 +62,13 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Shows welcome message and sets click listeners when activity is created
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Saved state
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
 
         showWelcomeMessage(savedInstanceState);
 
@@ -153,12 +160,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /**
+        /*
          * Button for getting a cat picture
          */
         Button picButton = (Button) findViewById(R.id.picButton);
 
-        /**
+        /*
          * Sets click listener on the pic button
          */
         picButton.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
 
                 String imageUrl = "";
 
-                //TODO: Hae kuveja
 
                 // Check if Internet connection is available
                 ConnectivityManager connMgr = (ConnectivityManager)
@@ -185,6 +191,12 @@ public class MainActivity extends AppCompatActivity {
                 // If there is a connection, send GET request
                 if (networkInfo != null && networkInfo.isConnected()) {
 
+
+
+                    //TODO: Kutsu DownloadImageServiceä (?)
+
+
+
                     // fetch data
                     AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(imageApiUrl);
 
@@ -192,14 +204,13 @@ public class MainActivity extends AppCompatActivity {
 
                         // Store the result of the request
                         imageUrl = dwt.get();
-                        System.out.println("URL of the image: " + imageUrl);
 
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    } catch (ExecutionException ee) {
+                        ee.printStackTrace();
                     }
+
 
                     imageUrl = parseImgUrl(imageUrl);
 
@@ -274,7 +285,8 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             // Create an object from string
-            Object obj = parser.parse(jsonString);
+            Object obj;
+            obj = parser.parse(jsonString);
 
             // Create a JSON object from object
             JSONObject jsonObject = (JSONObject) obj;
@@ -284,8 +296,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Iterate over the facts
             Iterator<String> iterator = fact.iterator();
+            // Store the fact into the result
             while (iterator.hasNext()) {
-                // Store the fact into the result
                 parsedResult = iterator.next();
             }
 
@@ -297,6 +309,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Parses the image URL out of the XML string
+     * @param xmlString XML string that contains URL to the image
+     * @return URL to the image
+     */
     public String parseImgUrl(String xmlString) {
 
         String imageUrl = "";
@@ -314,28 +331,29 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-            //optional, but recommended
-            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-            doc.getDocumentElement().normalize();
+            NodeList nList = null;
+            if (doc != null) {
+                doc.getDocumentElement().normalize();
+                nList = doc.getElementsByTagName("image");
+            }
 
 
-            NodeList nList = doc.getElementsByTagName("image");
 
             System.out.println("----------------------------");
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
+            if (nList != null) {
+                for (int temp = 0; temp < nList.getLength(); temp++) {
 
-                Node nNode = nList.item(temp);
+                    Node nNode = nList.item(temp);
 
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
 
-                    Element eElement = (Element) nNode;
+                        imageUrl = eElement.getElementsByTagName("url").item(0).getTextContent();
+                        System.out.println("Image URL: " + imageUrl);
 
-                    imageUrl = eElement.getElementsByTagName("url").item(0).getTextContent();
-                    System.out.println("Image URL: " + imageUrl);
-
+                    }
                 }
             }
         } catch (Exception e) {
@@ -349,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Fills the fragment container with a welcome message
      *
-     * @param savedInstanceState
+     * @param savedInstanceState Saved state
      */
     private void showWelcomeMessage(Bundle savedInstanceState) {
 

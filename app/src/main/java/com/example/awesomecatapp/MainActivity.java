@@ -12,29 +12,23 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
-import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-
-import java.io.File;
-import java.io.StringReader;
-import java.util.Iterator;
-import java.util.concurrent.ExecutionException;
-
-import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import java.io.StringReader;
+import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -54,6 +48,8 @@ public class MainActivity extends FragmentActivity {
 
     // Variable for storing current random fact
     public String factText;
+
+    static Bitmap catImage;
 
 
     Fragment fr;
@@ -192,9 +188,6 @@ public class MainActivity extends FragmentActivity {
                 // If there is a connection, send GET request
                 if (networkInfo != null && networkInfo.isConnected()) {
 
-                    //TODO: Kutsu DownloadImageServiceä (?)
-
-                    DownloadImageService diService = new DownloadImageService();
 
                     /*
                      * Creates a new Intent to start the DownloadImageService
@@ -207,15 +200,11 @@ public class MainActivity extends FragmentActivity {
                     // Starts the IntentService
                     context.startService(downloadImageIntent);
 
-                    Bitmap img = diService.img;
-
-
                     // configure image url
                     Bundle bundle = new Bundle();
-                    bundle.putParcelable("img", img);
+                    bundle.putParcelable("img", catImage);
                     bundle.putString("apiUrl", imageApiUrl);
                     fr.setArguments(bundle);
-
 
                     // Change the fragment in the container
                     fm = getFragmentManager();
@@ -307,61 +296,6 @@ public class MainActivity extends FragmentActivity {
 
 
     /**
-     * Parses the image URL out of the XML string
-     * @param xmlString XML string that contains URL to the image
-     * @return URL to the image
-     */
-    public String parseImgUrl(String xmlString) {
-
-        String imageUrl = "";
-
-        try {
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder;
-            Document doc = null;
-            try {
-                builder = factory.newDocumentBuilder();
-                doc = builder.parse(new InputSource(new StringReader(xmlString)));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            NodeList nList = null;
-            if (doc != null) {
-                doc.getDocumentElement().normalize();
-                nList = doc.getElementsByTagName("image");
-            }
-
-
-
-            System.out.println("----------------------------");
-
-            if (nList != null) {
-                for (int temp = 0; temp < nList.getLength(); temp++) {
-
-                    Node nNode = nList.item(temp);
-
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                        Element eElement = (Element) nNode;
-
-                        imageUrl = eElement.getElementsByTagName("url").item(0).getTextContent();
-                        System.out.println("Image URL: " + imageUrl);
-
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return imageUrl;
-    }
-
-
-    /**
      * Fills the fragment container with a welcome message
      *
      * @param savedInstanceState Saved state
@@ -392,6 +326,9 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    public static void setImage(Bitmap image) {
+        catImage = image;
+    }
 
 
 }

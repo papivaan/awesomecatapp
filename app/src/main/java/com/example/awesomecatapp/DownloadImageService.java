@@ -6,10 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.test.espresso.core.deps.guava.base.Charsets;
 import android.support.test.espresso.core.deps.guava.io.CharStreams;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
-import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,14 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DownloadImageService extends IntentService {
 
-    public static final String ACTION_DOWNLOAD = "com.example.awesomecatapp.action.DOWNLOAD";
-    //public static final String ACTION_BAZ = "com.example.dara.myapplication.action.BAZ";
-
-    public static final String EXTRA_APIURL = "com.example.awesomecatapp.extra.APIURL";
-    //public static final String EXTRA_MESSAGE = "com.example.awesomecatapp.extra.message";
-
     public Bitmap img = null;
-
 
 
     /**
@@ -57,10 +47,7 @@ public class DownloadImageService extends IntentService {
         String apiUrl = intent.getDataString();
         img = downloadImage(apiUrl);
 
-        Intent backIntent = new Intent(this, MainActivity.class);
-        backIntent.putExtra("image", img);
-        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(backIntent);
+        MainActivity.setImage(img);
 
     }
 

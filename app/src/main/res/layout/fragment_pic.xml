@@ -1,33 +1,33 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context="com.example.awesomecatapp.PicFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/picMessage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/picTest"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textColor="#000000"
             android:fontFamily="casual"/>
         <ImageView
             android:id="@+id/picView"
             android:layout_weight="5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="0dp"/>
         <TextView
             android:id="@+id/picUrl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/picTest"
-            android:textSize="10dp"
+            android:textSize="12sp"
             android:textColor="#000000"
             android:fontFamily="casual"/>
     </LinearLayout>

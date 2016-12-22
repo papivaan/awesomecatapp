@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -38,7 +39,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     private Context context;
 
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
+        //TODO: Appin nimi ei näy. Jos sen haluaa näkyviin, pitänee luoda sille oma fragment
+
         showWelcomeMessage(savedInstanceState);
 
         setListeners();
@@ -82,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setListeners() {
 
-        /**
+        /*
          * Button for getting the cat fact
          */
         Button factButton = (Button) findViewById(R.id.factButton);
 
-        /**
+        /*
          * Sets click listener on fact button
          */
         factButton.setOnClickListener(new View.OnClickListener() {

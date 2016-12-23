@@ -44,7 +44,6 @@ public class PicFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         // Set text
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -54,9 +53,6 @@ public class PicFragment extends Fragment {
             String apiUrl = bundle.getString("apiUrl");
             setImgText(apiUrl);
         }
-
-        // show The Image in a ImageView
-        //new DownloadImageTask((ImageView) getView().findViewById(R.id.picView)).execute(imgUrl);
 
     }
 

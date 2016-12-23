@@ -20,18 +20,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import java.io.StringReader;
 import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 
 public class MainActivity extends FragmentActivity {
@@ -47,8 +38,9 @@ public class MainActivity extends FragmentActivity {
     Intent downloadImageIntent;
 
     // Variable for storing current random fact
-    public String factText;
+    static String factText;
 
+    // Cat image
     static Bitmap catImage;
 
 
@@ -117,50 +109,22 @@ public class MainActivity extends FragmentActivity {
                     // fetch data
                     AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(factUrl);
 
-                    try {
+					Intent downloadFactIntent = new Intent(context, DownloadFactService.class);
+					downloadFactIntent.setData(Uri.parse(factUrl));
 
-                        // Store the result of the request
-                        result = dwt.get();
-
-                        // Find the index of last curly bracket
-                        int lastIndex = result.lastIndexOf("}");
-                        // Store text only until last curly bracket, ie. get rid of the funny characters at the end
-                        result = StringUtils.left(result, lastIndex + 1);
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Parse the json result into a single string
-                    result = parseFact(result);
-
-                    // Store the result as factText
-                    factText = result;
+					context.startService(downloadFactIntent);
 
                     // configure factText
                     Bundle bundle = new Bundle();
                     bundle.putString("text", factText);
                     fr.setArguments(bundle);
 
+					changeFragment(fr);
 
                 } else {
                     // display error
                     System.out.println("Error! Something wrong with the network...");
                 }
-
-                /*
-                 * TODO:
-                 * Jostain syystä ekalla kerralla kun klikkaa kuvaa, niin ei tule mitään
-                 * ja sen jälkeen tulee "pykälän myöhässä"
-                 */
-
-                // Change the fragment in the container
-                fm = getFragmentManager();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fr);
-                ft.commit();
 
 
             }
@@ -206,17 +170,19 @@ public class MainActivity extends FragmentActivity {
                     // Starts the IntentService
                     context.startService(downloadImageIntent);
 
+					/*
+                	 * TODO:
+                	 * Jostain syystä ekalla kerralla kun klikkaa kuvaa, niin ei tule mitään
+                	 * ja sen jälkeen tulee "pykälän myöhässä"
+                	 */
+
                     // configure image url
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("img", catImage);
                     bundle.putString("apiUrl", imageApiUrl);
                     fr.setArguments(bundle);
 
-                    // Change the fragment in the container
-                    fm = getFragmentManager();
-                    ft = getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_container, fr);
-                    ft.commit();
+					changeFragment(fr);
 
                 }
                 else {
@@ -249,12 +215,7 @@ public class MainActivity extends FragmentActivity {
 
                 //TODO: Hae gif
 
-                // Change the fragment in the container
-                // TODO:
-                fm = getFragmentManager();
-                ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fr);
-                ft.commit();
+                changeFragment(fr);
 
             }
         });
@@ -278,7 +239,8 @@ public class MainActivity extends FragmentActivity {
 
             // Create an object from string
             Object obj;
-            obj = parser.parse(jsonString);
+			System.out.println(jsonString);
+			obj = parser.parse(jsonString);
 
             // Create a JSON object from object
             JSONObject jsonObject = (JSONObject) obj;
@@ -333,9 +295,23 @@ public class MainActivity extends FragmentActivity {
     }
 
 
+	private void changeFragment(Fragment fr) {
+		// Change the fragment in the container
+		fm = getFragmentManager();
+		ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.fragment_container, fr);
+		ft.commit();
+	}
+
+
     public static void setImage(Bitmap image) {
         catImage = image;
     }
+
+
+	public static void setFact(String catFact) {
+		factText = catFact;
+	}
 
 
 }

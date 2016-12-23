@@ -35,8 +35,6 @@ public class MainActivity extends FragmentActivity {
     // API source: http://thecatapi.com
     String imageApiUrl = "http://thecatapi.com/api/images/get?format=xml&results_per_page=1";
 
-    Intent downloadImageIntent;
-
     // Variable for storing current random fact
     static String factText;
 
@@ -96,8 +94,6 @@ public class MainActivity extends FragmentActivity {
                 // Create new fact fragment
                 fr = new FactFragment();
 
-                String result = "";
-
                 // Check if Internet connection is available
                 ConnectivityManager connMgr = (ConnectivityManager)
                         getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -105,9 +101,6 @@ public class MainActivity extends FragmentActivity {
 
                 // If there is a connection, send GET request
                 if (networkInfo != null && networkInfo.isConnected()) {
-
-                    // fetch data
-                    AsyncTask<String, Void, String> dwt = new DownloadWebpageTask().execute(factUrl);
 
 					Intent downloadFactIntent = new Intent(context, DownloadFactService.class);
 					downloadFactIntent.setData(Uri.parse(factUrl));
@@ -117,7 +110,7 @@ public class MainActivity extends FragmentActivity {
                     // configure factText
                     Bundle bundle = new Bundle();
                     bundle.putString("text", factText);
-                    fr.setArguments(bundle);
+					fr.setArguments(bundle);
 
 					changeFragment(fr);
 

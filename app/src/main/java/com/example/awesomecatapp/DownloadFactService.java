@@ -39,7 +39,9 @@ public class DownloadFactService extends IntentService {
 	protected void onHandleIntent (Intent intent) {
 
 		String apiUrl = intent.getDataString();
+		System.out.println("API URL: " + apiUrl);
 		fact = downloadFact(apiUrl);
+		System.out.println("Fact in service: " + fact);
 
 		MainActivity.setFact(fact);
 
@@ -55,6 +57,7 @@ public class DownloadFactService extends IntentService {
 			in = new java.net.URL(apiUrl).openStream();
 			String jsonString = CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
 			fact = parseFact(jsonString);
+			System.out.println(fact);
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

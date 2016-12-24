@@ -9,6 +9,8 @@
     <string name="hello_blank_fragment">Tervehdys, Paavo! Mitä sinulle kuuluu tänään?</string>
     <string name="welcome_message">Welcome to the most awesome Cat Application ever made!</string>
 
+    <string name="copyright">© Lorem Ipsum</string>
+
     <string name="didYouKnow">Did you know that...</string>
     <string name="mostLikely">Most likely Topi already knew this.</string>
 

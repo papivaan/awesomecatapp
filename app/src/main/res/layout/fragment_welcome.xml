@@ -5,6 +5,10 @@
     tools:context="com.example.awesomecatapp.WelcomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,12 +23,13 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/copyright"
         android:textColor="#000000"
         android:textSize="10dp"
-        android:gravity="bottom"
+        android:layout_gravity="bottom"
         android:textAlignment="center"
         android:layout_marginBottom="20dp"/>
+    </LinearLayout>
 
 </FrameLayout>

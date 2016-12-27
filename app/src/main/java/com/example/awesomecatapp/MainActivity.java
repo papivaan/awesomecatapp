@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
@@ -35,11 +36,16 @@ public class MainActivity extends FragmentActivity {
     // API source: http://thecatapi.com
     String imageApiUrl = "http://thecatapi.com/api/images/get?format=xml&results_per_page=1";
 
+	// API source: http://thecatapi.com
+	String gifApiUrl = "http://thecatapi.com/api/images/get?format=xml&type=gif";
+
     // Variable for storing current random fact
     static String factText;
 
     // Cat image
     static Bitmap catImage;
+
+	static String catGif;
 
 
     Fragment fr;
@@ -206,54 +212,36 @@ public class MainActivity extends FragmentActivity {
 
                 fr = new GifFragment();
 
-                //TODO: Hae gif
+				// Check if Internet connection is available
+				ConnectivityManager connMgr = (ConnectivityManager)
+						getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-                changeFragment(fr);
+				// If there is a connection, send GET request
+				if (networkInfo != null && networkInfo.isConnected()) {
+
+					Intent downloadGifIntent = new Intent(context, DownloadGifService.class);
+					downloadGifIntent.setData(Uri.parse(gifApiUrl));
+
+					context.startService(downloadGifIntent);
+
+					Bundle bundle = new Bundle();
+					bundle.putString("url", catGif);
+					fr.setArguments(bundle);
+
+					changeFragment(fr);
+
+				}
+				else {
+					// display error
+					System.out.println("Error! Something wrong with the network...");
+				}
 
             }
         });
     }
 
 
-    /**
-     * Parses the cat fact out of a json string
-     *
-     * @param jsonString String that needs parsing
-     * @return Parsed fact
-     */
-    private String parseFact(String jsonString) {
-
-        String parsedResult = "";
-
-        // Create new JSON parser
-        JSONParser parser = new JSONParser();
-
-        try {
-
-            // Create an object from string
-            Object obj;
-			System.out.println(jsonString);
-			obj = parser.parse(jsonString);
-
-            // Create a JSON object from object
-            JSONObject jsonObject = (JSONObject) obj;
-
-            // Create a JSON array that has facts in it
-            JSONArray fact = (JSONArray) jsonObject.get("facts");
-
-            // Iterate over the facts
-            Iterator<String> iterator = fact.iterator();
-            // Store the fact into the result
-            while (iterator.hasNext()) {
-                parsedResult = iterator.next();
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return parsedResult;
-    }
 
 
     /**
@@ -305,6 +293,11 @@ public class MainActivity extends FragmentActivity {
 	public static void setFact(String catFact) {
 		factText = catFact;
 	}
+
+	public static void setGifUrl(String gifUrl) {
+		catGif = gifUrl;
+	}
+
 
 
 }

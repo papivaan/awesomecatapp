@@ -294,6 +294,7 @@ public class MainActivity extends FragmentActivity {
 		factText = catFact;
 	}
 
+
 	public static void setGifUrl(String gifUrl) {
 		catGif = gifUrl;
 	}

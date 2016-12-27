@@ -44,9 +44,10 @@ public class GifFragment extends Fragment {
 	public void setGif(String url) {
 		ImageView iv = (ImageView) getView().findViewById(R.id.imageViewGif);
 		Glide
-				.with(this)
+				.with(getContext())
 				.load(url)
 				.asGif()
+				.placeholder(R.mipmap.kisse)
 				.error(R.mipmap.kisse)
 				.into(iv);
 	}

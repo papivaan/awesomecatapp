@@ -47,8 +47,6 @@ public class DownloadGifService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 
 		String apiUrl = intent.getDataString();
-		System.out.println("GIF API URL: + " + apiUrl);
-
 		String gifUrl = downloadGif(apiUrl);
 
 		MainActivity.setGifUrl(gifUrl);

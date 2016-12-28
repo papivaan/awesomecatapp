@@ -44,6 +44,7 @@ public class MainActivity extends FragmentActivity {
 
     // Cat image
     static Bitmap catImage;
+	static String imgUrl;
 
 	static String catGif;
 
@@ -178,7 +179,7 @@ public class MainActivity extends FragmentActivity {
                     // configure image url
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("img", catImage);
-                    bundle.putString("apiUrl", imageApiUrl);
+                    bundle.putString("imgUrl", imgUrl);
                     fr.setArguments(bundle);
 
 					changeFragment(fr);
@@ -193,12 +194,12 @@ public class MainActivity extends FragmentActivity {
         });
 
 
-        /**
+        /*
          * Button for getting a cat gif
          */
         Button gifButton = (Button) findViewById(R.id.gifButton);
 
-        /**
+        /*
          * Sets click listener on the button
          */
         gifButton.setOnClickListener(new View.OnClickListener() {
@@ -285,8 +286,9 @@ public class MainActivity extends FragmentActivity {
 	}
 
 
-    public static void setImage(Bitmap image) {
+    public static void setImage(Bitmap image, String url) {
         catImage = image;
+		imgUrl = url;
     }
 
 
@@ -298,7 +300,6 @@ public class MainActivity extends FragmentActivity {
 	public static void setGifUrl(String gifUrl) {
 		catGif = gifUrl;
 	}
-
 
 
 }

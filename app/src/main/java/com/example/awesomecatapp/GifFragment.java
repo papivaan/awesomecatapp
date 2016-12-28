@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -42,14 +43,23 @@ public class GifFragment extends Fragment {
 	}
 
 	public void setGif(String url) {
-		ImageView iv = (ImageView) getView().findViewById(R.id.imageViewGif);
-		Glide
-				.with(getContext())
-				.load(url)
-				.asGif()
-				.placeholder(R.mipmap.kisse)
-				.error(R.mipmap.kisse)
-				.into(iv);
+		try {
+			ImageView iv = (ImageView) getView().findViewById(R.id.imageViewGif);
+			Glide
+					.with(getContext())
+					.load(url)
+					.asGif()
+					.placeholder(R.mipmap.kisse)
+					.error(R.mipmap.kisse)
+					.into(iv);
+
+			TextView tv = (TextView) getView().findViewById(R.id.viewGifUrl);
+			String text = "Gif source: " + url;
+			tv.setText(text);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

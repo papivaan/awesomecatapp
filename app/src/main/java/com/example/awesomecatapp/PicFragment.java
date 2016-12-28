@@ -50,25 +50,23 @@ public class PicFragment extends Fragment {
             Bitmap img = (Bitmap) bundle.get("img");
             ImageView iv = (ImageView) getView().findViewById(R.id.picView);
             iv.setImageBitmap(img);
-            String apiUrl = bundle.getString("apiUrl");
-            setImgText(apiUrl);
+            String imgUrl = bundle.getString("imgUrl");
+            setImgText(imgUrl);
         }
 
     }
+
 
     public void setImgText(String imgUrl) {
 
         try {
             TextView t = (TextView) getView().findViewById(R.id.picUrl);
-            String text = "Images powered by: " + imgUrl;
+            String text = "Image source: " + imgUrl;
             t.setText(text);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
-
     }
-
-
 
 }

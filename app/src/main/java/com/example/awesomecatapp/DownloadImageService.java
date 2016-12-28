@@ -25,8 +25,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DownloadImageService extends IntentService {
 
-    public Bitmap img = null;
-
+	private Bitmap img;
+	private String imgUrl;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -47,15 +47,13 @@ public class DownloadImageService extends IntentService {
         String apiUrl = intent.getDataString();
         img = downloadImage(apiUrl);
 
-        MainActivity.setImage(img);
+        MainActivity.setImage(img, imgUrl);
 
     }
 
 
     private Bitmap downloadImage(String apiUrl) {
 
-        Bitmap img = null;
-        String imgUrl = null;
         InputStream in = null;
 
         try {

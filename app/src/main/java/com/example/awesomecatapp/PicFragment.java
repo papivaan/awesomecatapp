@@ -2,23 +2,13 @@ package com.example.awesomecatapp;
 
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
 
 /**
@@ -49,6 +39,7 @@ public class PicFragment extends Fragment {
         if (bundle != null) {
             Bitmap img = (Bitmap) bundle.get("img");
             ImageView iv = (ImageView) getView().findViewById(R.id.picView);
+
             iv.setImageBitmap(img);
             String imgUrl = bundle.getString("imgUrl");
             setImgText(imgUrl);
